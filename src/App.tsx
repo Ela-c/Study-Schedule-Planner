@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { Subject, FormData, ScheduleResponse, ApiError } from './types';
 import { saveFormData, loadFormData } from './utils/localStorage';
@@ -7,9 +8,11 @@ import SubjectField from './components/SubjectField';
 import ScheduleDisplay from './components/ScheduleDisplay';
 import ErrorMessage from './components/ErrorMessage';
 import LoadingSpinner from './components/LoadingSpinner';
+import Navigation from './components/Navigation';
+import QuizGenerator from './components/QuizGenerator';
 import { Plus } from 'lucide-react';
 
-const App: React.FC = () => {
+const SchedulePlanner: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     subjects: [
       { id: uuidv4(), name: '', priority: 'Medium' },
@@ -130,8 +133,13 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-gray-50">
       <header className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-6 shadow-md">
         <div className="container mx-auto">
-          <h1 className="text-3xl font-bold mb-2">Study Schedule Planner</h1>
-          <p className="text-blue-100">Optimize your study time and ace your exams</p>
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-3xl font-bold mb-2">Study Schedule Planner</h1>
+              <p className="text-blue-100">Optimize your study time and ace your exams</p>
+            </div>
+            <Navigation />
+          </div>
         </div>
       </header>
       
@@ -247,6 +255,17 @@ const App: React.FC = () => {
         </div>
       </footer>
     </div>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<SchedulePlanner />} />
+        <Route path="/quiz-generator" element={<QuizGenerator />} />
+      </Routes>
+    </Router>
   );
 };
 
