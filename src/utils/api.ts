@@ -1,13 +1,12 @@
 import { FormData, ScheduleResponse, ApiError } from '../types';
+import { v4 as uuidv4 } from 'uuid';
 
 // In a real app, this would be set via environment variables
-const API_URL = 'http://localhost:5000/generate_schedule';
+//const API_URL = 'http://localhost:5000/generate_schedule';
 
 export const generateSchedule = async (formData: FormData): Promise<ScheduleResponse> => {
   try {
     // For now, we'll simulate an API response since we don't have a backend
-    // In a real implementation, this would make an actual API call
-    
     // Mock API call with a delay to simulate network request
     await new Promise(resolve => setTimeout(resolve, 1500));
     
@@ -58,10 +57,12 @@ const createMockSchedule = (formData: FormData): ScheduleResponse => {
       const subject = shuffledSubjects[subjectIndex];
       
       return {
+        id: uuidv4(), // Add unique ID for each item
         subject: subject.name,
         priority: subject.priority,
         timeBlock,
-        duration: 2 // 2 hours per block
+        duration: 2, // 2 hours per block
+        completed: false // Initialize as not completed
       };
     });
     
